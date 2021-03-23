@@ -133,18 +133,27 @@ def input_main():
         choice = input("Please choose one option of item id to scam (1 - Sony TV, 2 - Central AC, 3 - Nike Shoe or "
                        "4 - Charger) or 0 zero to exit:\n")
         if choice == '0':
-            print("Quitting")
-            sys.exit()
+            exit_program(checkout)
         else:
             if choice.isnumeric():
                 item = accepted_item.get(int(choice))
                 if item is not None:
                     checkout.scam(item)
-                    print('Total:', CURRENCY_FORMAT.format(checkout.total()))
+                    print('Total:', CURRENCY_FORMAT.format(checkout.total()), "\n")
                 else:
-                    print("Wrong choice, try again...")
+                    print("Wrong choice, try again...", "\n")
             else:
-                print("Wrong choice, please type a number...")
+                print("Wrong choice, please type a number...", "\n")
+
+
+def exit_program(checkout):
+    if checkout.products is not None and len(checkout.products) > 0:
+        print('\n\n********************* Checkout **********************\n')
+        print("ITEM_IDs Scanned:", checkout.get_itens_keys())
+        print("Total:", checkout.total(), "\n")
+        print('********************* Checkout **********************\n')
+    print("Quitting...")
+    sys.exit()
 
 
 if __name__ == '__main__':

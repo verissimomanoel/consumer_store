@@ -71,3 +71,12 @@ class Checkout:
             self.__apply_rules(self.products.get(key)[0])
 
         return self.amount - self.discount
+
+    def get_itens_keys(self):
+        itens_keys = ""
+        for items in self.products.values():
+            for item in items:
+                itens_keys += item.id + ", "
+
+        itens_keys = itens_keys[:-2]
+        return itens_keys
