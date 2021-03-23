@@ -2,7 +2,7 @@
 #   This software is free software.
 # ----------------------------------------------------------------------------------------------------------------------
 
-class Item():
+class Item:
     """
     Model of item in the store.
     """
