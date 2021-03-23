@@ -9,42 +9,120 @@ from app.main.rule.nike_rule import NikeRule
 import sys
 import logging
 
-CURRENCY_FORMAT = '{:7,.2f}'
+CURRENCY_FORMAT = '$ {:.2f}'
 LOG_FORMAT = '%(asctime)-15s :: %(message)s'
 
 logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 
 def tests():
     # Scenario 1
+    test_scenario1()
+
+    # Scenario 2
+    test_scenario2()
+
+    # Scenario 3
+    test_scenario3()
+
+    # Scenario 4
+    test_scenario4()
+
+    # Scenario 5
+    test_scenario5()
+
+    # Scenario 6
+    test_scenario6()
+
+    # Scenario 7
+    test_scenario7()
+
+def test_scenario7():
+    checkout = Checkout(rules)
+    checkout.scam(nike_shoe)
+    checkout.scam(sony_tv)
+    checkout.scam(charger)
+    total = checkout.total()
+    assert round(total, 2) == 689.49
+    logging.info('Pass Test 7 *** Total: ' + CURRENCY_FORMAT.format(total))
+
+def test_scenario6():
+    checkout = Checkout(rules)
+    checkout.scam(nike_shoe)
+    checkout.scam(nike_shoe)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(central_ac)
+    checkout.scam(charger)
+    checkout.scam(charger)
+    total = checkout.total()
+    assert round(total, 2) == 2778.97
+    logging.info('Pass Test 6 *** Total: ' + CURRENCY_FORMAT.format(total))
+
+
+def test_scenario5():
+    checkout = Checkout(rules)
+    checkout.scam(nike_shoe)
+    checkout.scam(nike_shoe)
+    checkout.scam(nike_shoe)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(central_ac)
+    checkout.scam(charger)
+    total = checkout.total()
+    assert round(total, 2) == 3848.95
+    logging.info('Pass Test 5 *** Total: ' + CURRENCY_FORMAT.format(total))
+
+def test_scenario4():
+    checkout = Checkout(rules)
+    checkout.scam(nike_shoe)
+    checkout.scam(nike_shoe)
+    checkout.scam(nike_shoe)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(central_ac)
+    checkout.scam(charger)
+    total = checkout.total()
+    assert round(total, 2) == 4148.94
+    logging.info('Pass Test 4 *** Total: ' + CURRENCY_FORMAT.format(total))
+
+
+def test_scenario3():
+    checkout = Checkout(rules)
+    checkout.scam(central_ac)
+    checkout.scam(sony_tv)
+    total = checkout.total()
+    assert round(total, 2) == 1949.98
+    logging.info('Pass Test 3 *** Total: ' + CURRENCY_FORMAT.format(total))
+
+
+def test_scenario2():
+    checkout = Checkout(rules)
+    checkout.scam(nike_shoe)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(nike_shoe)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    checkout.scam(sony_tv)
+    total = checkout.total()
+    assert round(total, 2) == 2718.95
+    logging.info('Pass Test 2 *** Total: ' + CURRENCY_FORMAT.format(total))
+
+
+def test_scenario1():
     checkout = Checkout(rules)
     checkout.scam(nike_shoe)
     checkout.scam(nike_shoe)
     checkout.scam(nike_shoe)
     checkout.scam(charger)
     total = checkout.total()
-    assert total == 249.00
-    logging.info('Pass Test 1 *** Total: $' + CURRENCY_FORMAT.format(total))
-
-    # Scenario 2
-    checkout = Checkout(rules)
-    checkout.scam(nike_shoe)
-    checkout.scam(sony_tv)
-    checkout.scam(sony_tv)
-    checkout.scam(nike_shoe)
-    checkout.scam(sony_tv)
-    checkout.scam(sony_tv)
-    checkout.scam(sony_tv)
-    total = checkout.total()
-    assert total == 2718.95
-    logging.info('Pass Test 2 *** Total: $' + CURRENCY_FORMAT.format(total))
-
-    # Scenario 3
-    checkout = Checkout(rules)
-    checkout.scam(central_ac)
-    checkout.scam(sony_tv)
-    total = checkout.total()
-    assert total == 1949.98
-    logging.info('Pass Test 3 *** Total: $' + CURRENCY_FORMAT.format(total))
+    assert round(total, 2) == 249.00
+    logging.info('Pass Test 1 *** Total: ' + CURRENCY_FORMAT.format(total))
 
 
 def input_main():
