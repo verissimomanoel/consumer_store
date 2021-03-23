@@ -7,8 +7,12 @@ from app.main.rule.sony_rule import SonyRule
 from app.main.rule.central_ac_rule import CentralACRule
 from app.main.rule.nike_rule import NikeRule
 import sys
+import logging
 
-FORMAT = '{:7,.2f}'
+CURRENCY_FORMAT = '{:7,.2f}'
+LOG_FORMAT = '%(asctime)-15s :: %(message)s'
+
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 
 def tests():
     # Scenario 1
@@ -19,7 +23,7 @@ def tests():
     checkout.scam(charger)
     total = checkout.total()
     assert total == 249.00
-    print('Pass Test 1 *** Total:', FORMAT.format(total))
+    logging.info('Pass Test 1 *** Total: $' + CURRENCY_FORMAT.format(total))
 
     # Scenario 2
     checkout = Checkout(rules)
@@ -32,7 +36,7 @@ def tests():
     checkout.scam(sony_tv)
     total = checkout.total()
     assert total == 2718.95
-    print('Pass Test 2 *** Total:', FORMAT.format(total))
+    logging.info('Pass Test 2 *** Total: $' + CURRENCY_FORMAT.format(total))
 
     # Scenario 3
     checkout = Checkout(rules)
@@ -40,10 +44,12 @@ def tests():
     checkout.scam(sony_tv)
     total = checkout.total()
     assert total == 1949.98
-    print('Pass Test 3 *** Total:', FORMAT.format(total))
+    logging.info('Pass Test 3 *** Total: $' + CURRENCY_FORMAT.format(total))
 
 
 def input_main():
+    tests()
+
     checkout = Checkout(rules)
     while True:
         choice = input("Please choose one option of item id to scam (1 - Sony TV, 2 - Central AC, 3 - Nike Shoe or "
@@ -56,7 +62,7 @@ def input_main():
                 item = accepted_item.get(int(choice))
                 if item is not None:
                     checkout.scam(item)
-                    print('Total:', FORMAT.format(checkout.total()))
+                    print('Total:', CURRENCY_FORMAT.format(checkout.total()))
                 else:
                     print("Wrong choice, try again...")
             else:
@@ -87,5 +93,4 @@ if __name__ == '__main__':
         nike_shoe.id: [nike_rule]
     }
 
-    tests()
     input_main()
