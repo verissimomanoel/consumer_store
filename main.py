@@ -15,6 +15,10 @@ LOG_FORMAT = '%(asctime)-15s :: %(message)s'
 logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 
 def tests():
+    """
+    Execute some simple tests to verify the rules.
+    :return:
+    """
     # Scenario 1
     test_scenario1()
 
@@ -126,6 +130,10 @@ def test_scenario1():
 
 
 def input_main():
+    """
+    Main execution to provide options to users to scam items and checkout.
+    :return:
+    """
     tests()
 
     checkout = Checkout(rules)
@@ -136,7 +144,7 @@ def input_main():
             exit_program(checkout)
         else:
             if choice.isnumeric():
-                item = accepted_item.get(int(choice))
+                item = accepted_items.get(int(choice))
                 if item is not None:
                     checkout.scam(item)
                     print('Total:', CURRENCY_FORMAT.format(checkout.total()), "\n")
@@ -147,6 +155,11 @@ def input_main():
 
 
 def exit_program(checkout):
+    """
+    Ends the program, and if have items scanned, show the checkout.
+    :param checkout:
+    :return:
+    """
     if checkout.products is not None and len(checkout.products) > 0:
         print('\n\n********************* Checkout **********************\n')
         print("ITEM_IDs Scanned:", checkout.get_itens_keys())
@@ -157,23 +170,34 @@ def exit_program(checkout):
     sys.exit()
 
 
-if __name__ == '__main__':
+def prepare_accepted_items():
+    """
+    Prepare a list with the accepted items to scam.
+    :return:
+    """
+    global sony_tv, central_ac, nike_shoe, charger, accepted_items
     sony_tv = Item("stv", "Sony TV", 549.99)
     central_ac = Item("cac", "Central AC", 1399.99)
     nike_shoe = Item("nsh", "Nike Shoe", 109.50)
     charger = Item("mch", "Charger", 30)
 
-    accepted_item = {
+    accepted_items = {
         1: sony_tv,
         2: central_ac,
         3: nike_shoe,
         4: charger,
     }
 
+
+def prepare_rules():
+    """
+    Prepare the rules to calculate the discounts.
+    :return:
+    """
+    global rules
     sony_rule = SonyRule('Sony Rule')
     central_ac_rule = CentralACRule('Central AC Rule')
     nike_rule = NikeRule('Nike Rule')
-
     # Dict with all rules by item type.
     rules = {
         sony_tv.id: [sony_rule],
@@ -181,4 +205,8 @@ if __name__ == '__main__':
         nike_shoe.id: [nike_rule]
     }
 
+
+if __name__ == '__main__':
+    prepare_accepted_items()
+    prepare_rules()
     input_main()
