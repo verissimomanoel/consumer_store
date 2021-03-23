@@ -4,7 +4,7 @@
 from ..model.item import Item
 
 
-class Checkout():
+class Checkout:
     """
     Store the items of checkout in the store.
     """
@@ -18,6 +18,7 @@ class Checkout():
         self.pricing_rules = pricing_rules
         self.products = {}
         self.amount = 0
+        self.discount = 0
         self.charger = Item("mch", "Charger", 30)
 
     def scam(self, item: Item):
@@ -31,12 +32,22 @@ class Checkout():
             self.products[item.id] = []
 
         self.products[item.id].append(item)
+        self.amount += item.price
+        self.verify_central_ac(item)
 
+    def verify_central_ac(self, item):
+        """
+        Check if the added item is a central ac, add a charger in a list of products, and
+        increment the amount with the charger value.
+        :param item:
+        :return:
+        """
         if item.id == self.CENTRAL_AC_KEY:
             if self.charger.id not in self.products:
                 self.products[self.charger.id] = []
 
             self.products[self.charger.id].append(self.charger)
+            self.amount += self.charger.price
 
     def __apply_rules(self, item):
         """
@@ -48,15 +59,15 @@ class Checkout():
             rules_item = self.pricing_rules.get(item.id)
             if rules_item is not None:
                 for rule in rules_item:
-                    discount = rule.process(item, self.products)
-                    self.amount -= discount
+                    self.discount += rule.process(item, self.products)
 
     def total(self):
-        self.amount = 0
+        """
+        Calculates the total amount for the checkout applying the discounts.
+        :return:
+        """
+        self.discount = 0
         for key in self.products.keys():
-            for item in self.products.get(key):
-                self.amount += item.price
-
             self.__apply_rules(self.products.get(key)[0])
 
-        return self.amount
+        return self.amount - self.discount
