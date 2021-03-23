@@ -152,6 +152,7 @@ def exit_program(checkout):
         print("ITEM_IDs Scanned:", checkout.get_itens_keys())
         print("Total:", checkout.total(), "\n")
         print('********************* Checkout **********************\n')
+
     print("Quitting...")
     sys.exit()
 
