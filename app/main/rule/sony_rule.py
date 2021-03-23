@@ -25,7 +25,7 @@ class SonyRule(AbstractRule):
         """
         items = dict_items.get(item.id)
         diff = item.price - self.PRICE_WITH_DISCOUNT
-        if len(items) < 4:
+        if len(items) <= 4:
             return 0
         else:
             return len(items) * diff
